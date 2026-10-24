@@ -1,7 +1,0 @@
-if ( bcrypt.compare(password, passwordhash) === true) {
-        window.location.replace("https://minecraft-server-gamma.vercel.app/dashboard");
-    }
-    else {
-        console.log("password is incorrect");
-    }
-

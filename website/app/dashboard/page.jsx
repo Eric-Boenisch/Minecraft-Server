@@ -61,7 +61,6 @@ async function DashboardContent() {
       />
 
       <form action={LogoutAction}>
-            <input name="hash"></input>
             <button type="submit">Logout</button>
         </form>
     </>
