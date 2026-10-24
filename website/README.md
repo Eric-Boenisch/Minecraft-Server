@@ -16,6 +16,16 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Authentication configuration
+
+The login and dashboard use `JWT_SECRET` to sign and verify authentication tokens. Set it in `website/.env.local` (the `website` directory is the Next.js project root):
+
+```text
+JWT_SECRET=your-long-random-secret
+```
+
+Generate a strong value with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` and restart the Next.js server after changing the file. For deployments, configure `JWT_SECRET` as a server-side environment variable. Do not commit the secret.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
