@@ -20,7 +20,7 @@ export function getCurrentYear() {
 }
 
 
-function Status(getCurrentYear, Year, getCurrentMonth, Month) {
+export function Status(getCurrentYear, Year, getCurrentMonth, Month) {
     if (getCurrentYear() > Year) {
         return("abgelaufen");
     }    

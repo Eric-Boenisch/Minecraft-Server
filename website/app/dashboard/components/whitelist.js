@@ -19,7 +19,7 @@ export async function whitelist() {
 }
 
 function API() {
-    fetch('https://deinewebsite.de', { //hier dann richtige URL einfügen und bei .htaccess den * mit der Server URL ersetzen
+    fetch('https://minecraft-server-gamma.vercel.app/', { //hier dann richtige URL einfügen und bei .htaccess den * mit der Server URL ersetzen
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(whitelist())

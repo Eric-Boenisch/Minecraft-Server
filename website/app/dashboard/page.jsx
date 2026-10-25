@@ -2,11 +2,9 @@ import { Suspense } from "react";
 import { connection } from "next/server";
 import { revalidatePath } from "next/cache";
 import { getCellValue, readRows, updateCellValue, getColumnIndex } from "./components/excelService";
-import {
-  ShowTable2026,
-  ShowTable2027,
-  ShowTable2028,
-} from "./components/ShowTable.jsx";
+import { ShowTable2026, ShowTable2027, ShowTable2028} from "./components/ShowTable.jsx";
+import  Teilgenommen  from "./components/Teilgenommen.jsx"
+
 import YearSelector from "./components/YearSelector.jsx";
 import { whitelist } from "./components/whitelist.js";
 import { LogoutAction } from "./components/logout.jsx";
@@ -54,6 +52,9 @@ async function DashboardContent() {
       <form action={updateSpreadsheet}>
         <button type="submit">Update Excel cell</button>
       </form>
+
+      <Teilgenommen rows={rows} name={name} />
+
       <YearSelector
         year2026={<ShowTable2026 rows={rows} name={name} />}
         year2027={<ShowTable2027 rows={rows} name={name} />}
