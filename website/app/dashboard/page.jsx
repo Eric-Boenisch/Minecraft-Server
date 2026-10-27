@@ -3,8 +3,8 @@ import { connection } from "next/server";
 import { revalidatePath } from "next/cache";
 import { getCellValue, readRows, updateCellValue, getColumnIndex } from "./components/excelService";
 import { ShowTable2026, ShowTable2027, ShowTable2028} from "./components/ShowTable.jsx";
-import  Teilgenommen  from "./components/Teilgenommen.jsx"
-
+import Teilgenommen  from "./components/Teilgenommen.jsx";
+import Guthaben from "./components/guthaben.jsx";
 import YearSelector from "./components/YearSelector.jsx";
 import { whitelist } from "./components/whitelist.js";
 import { LogoutAction } from "./components/logout.jsx";
@@ -13,6 +13,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { getJwtSecret } from "../auth";
+
 
 //bei Zellen immer so: Zeile Spalte
 // Zeilen und Spalten werden im Index angegeben (Zeile 1 = Index 0 / Spalte 1 = Index 0)
@@ -49,9 +50,8 @@ async function DashboardContent() {
   return (
     <>
       <p>{getCellValue(rows, 0, getColumnIndex(rows, name))}</p>
-      <form action={updateSpreadsheet}>
-        <button type="submit">Update Excel cell</button>
-      </form>
+
+      <Guthaben rows={rows} name={name} />
 
       <Teilgenommen rows={rows} name={name} />
 

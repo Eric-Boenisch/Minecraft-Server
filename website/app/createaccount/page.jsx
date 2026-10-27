@@ -1,21 +1,28 @@
 "use client"
 
 import { useState, useActionState } from "react";
-import { Bedrock } from "./action";
+import { Bedrock, Java } from "./action";
+import { redirect } from "next/navigation";
  
 
 export default function CreateAccount() {
     
     const [IsChecked, SetIsChecked] = useState(false);
 
-    const [BedrockState, BedrockAction, IsPending] = useActionState(
+    const [BedrockState, BedrockAction, BedrockIsPending] = useActionState(
         Bedrock,
         { message: "" }
     );
 
-    async function Java(FormData) {
-        return(console.log("Java Account creation"));
+    const [JavaState, JavaAction, JavaIsPending] = useActionState(
+        Java,
+        { message: "" }
+    );
+
+    async function Login() {
+        return(redirect('/login'));        
     }
+
     return(
         <main>
             <label className= "switch">
@@ -41,13 +48,13 @@ export default function CreateAccount() {
                             <input type="text" id="BPasswordCompare" name="BPasswordCompare" required pattern="\S*" title="Leerzeichen sind nicht erlaubt"/>
 
                             {BedrockState.message && <p>{BedrockState.message}</p>}
-                            <button type="submit" disabled={IsPending}>Create Account</button>
+                            <button type="submit" disabled={BedrockIsPending}>Create Account</button>
                         </form>
                     </div>
                 ) : (
                     <div>
                         <h1>Java Account Registration</h1>
-                        <form key="Java" action={Java}>
+                        <form key="Java" action={JavaAction}>
                             <label htmlFor="JUsername">Ingame Username</label>
                             <input type="text" id="JUsername" name="JUsername" required pattern="\S*" title="Leerzeichen sind nicht erlaubt"/>
 
@@ -56,11 +63,16 @@ export default function CreateAccount() {
                             <label htmlFor="JPasswordCompare">Passwort wiederholen</label>
                             <input type="text" id="JPasswordCompare" name="JPasswordCompare" required pattern="\S*" title="Leerzeichen sind nicht erlaubt"/>
 
-                            <button type="submit">Create Account</button>
+                            {JavaState.message && <p>{JavaState.message}</p>}
+                            <button type="submit" disabled={JavaIsPending}>Create Account</button>
                         </form>
                     </div>
                 ) }
             </div>
+
+            <form action={Login}>
+                <button type="submit">Zurück zum Login</button>
+            </form>
         </main>
     )
 }
