@@ -1,6 +1,8 @@
+"use server"
+import { redirect } from "next/navigation";
 import { getCellValue, getColumnIndex } from "./excelService";
 
-export default function Guthaben( {rows, name} ) {
+export default async function Guthaben( {rows, name} ) {
 
     const EingezahltesGuthaben = getCellValue(rows, 2, getColumnIndex(rows, name));
     const GuthabenNachGebür = EingezahltesGuthaben - EingezahltesGuthaben*0.2;
@@ -36,6 +38,11 @@ export default function Guthaben( {rows, name} ) {
 
         return("Dein aktuelles Guthaben reicht nicht aus, um im nächsten Monat mitspielen zu können. Du kannst es über die angegebenen Zahlungsmethoden wieder aufladen.")
     }
+
+    async function GuthabenAufladen() {
+        "use server"
+        redirect("https://pci.jotform.com/form/262996802319064");
+    }
     
     return(
         <div>
@@ -44,6 +51,9 @@ export default function Guthaben( {rows, name} ) {
             <p>{Output2}</p>
             <p>{Output3}</p>
             <p>{Liquide(AktuellesGuthaben, Serverkosten)}</p>
+            <form action={GuthabenAufladen}>
+                <button>Guthaben aufladen</button>
+            </form>
         </div>
         
         
