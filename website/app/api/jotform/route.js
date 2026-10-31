@@ -1,5 +1,7 @@
+import { getCellValue, updateCellValue, getColumnIndex, readRows } from "../../dashboard/components/excelService";
 
 export async function POST(request) {
+    const rows = await readRows();
   try {
     const body = await request.text();
 
@@ -26,6 +28,14 @@ export async function POST(request) {
 
     console.log("PARSED JOTFORM DATA:");
     console.dir(data, { depth: null });
+
+    const name = data.q7_username;
+    console.log(name);
+    const EingezahltesGuthaben = getCellValue(rows, 2, getColumnIndex(rows, name)) + 5;
+    updateCellValue(2 , name, EingezahltesGuthaben);
+    console.log(getCellValue(rows, 2, getColumnIndex(rows, name)));
+
+
 
     return Response.json({
       success: true
