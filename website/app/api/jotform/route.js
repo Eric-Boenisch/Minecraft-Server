@@ -29,7 +29,7 @@ export async function POST(request) {
     console.log("PARSED JOTFORM DATA:");
     console.dir(data, { depth: null });
 
-    const name = Edgar_;
+    const name = "Edgar_";
     console.log(name);
     console.log(data.q7_username)
     const EingezahltesGuthaben = getCellValue(rows, 2, getColumnIndex(rows, name)) + 5;
