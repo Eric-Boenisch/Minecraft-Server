@@ -10,6 +10,12 @@ export async function POST(request) {
 
     let data;
 
+    const name = "Edgar_";
+    console.log(name);
+    const EingezahltesGuthaben = getCellValue(rows, 2, getColumnIndex(rows, name)) + 5;
+    updateCellValue(2 , name, EingezahltesGuthaben);
+    console.log(getCellValue(rows, 2, getColumnIndex(rows, name)));
+
     try {
       data = JSON.parse(body);
     } catch {
@@ -28,14 +34,6 @@ export async function POST(request) {
 
     console.log("PARSED JOTFORM DATA:");
     console.dir(data, { depth: null });
-
-    const name = "Edgar_";
-    console.log(name);
-    console.log(data.q7_username)
-    const EingezahltesGuthaben = getCellValue(rows, 2, getColumnIndex(rows, name)) + 5;
-    updateCellValue(2 , name, EingezahltesGuthaben);
-    console.log(getCellValue(rows, 2, getColumnIndex(rows, name)));
-
 
 
     return Response.json({
