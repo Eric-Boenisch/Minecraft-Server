@@ -13,8 +13,10 @@ export async function POST(request) {
     const name = "Edgar_";
     console.log(name);
     const EingezahltesGuthaben = getCellValue(rows, 2, getColumnIndex(rows, name)) + 5;
-    updateCellValue(2 , name, EingezahltesGuthaben);
-    console.log(getCellValue(rows, 2, getColumnIndex(rows, name)));
+    console.log(EingezahltesGuthaben);
+    updateCellValue(2 , getColumnIndex(rows, name), EingezahltesGuthaben);
+    console.log(getCellValue(rows, 2, getColumnIndex(rows, name)) + 5);
+    
 
     try {
       data = JSON.parse(body);
