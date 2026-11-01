@@ -51,7 +51,7 @@ async function DashboardContent() {
   const BedrockUser = name.startsWith(".");
   return (
     <main className={`${styles.dashboard} ${BedrockUser ? styles.bedrockTheme : ""}`}>
-      <Navbar BedrockUser={BedrockUser} name={name} />
+      <Navbar BedrockUser={BedrockUser} rows={rows} name={name} />
 
       <section className={styles.section}>
         <Guthaben rows={rows} name={name} />

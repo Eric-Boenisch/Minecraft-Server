@@ -23,21 +23,13 @@ export default async function Guthaben( {rows, name} ) {
         var Output3 = "Aktuelles Guthaben: " + AktuellesGuthaben + "€";
     }
 
+    if (EingezahltesGuthaben === 0) {
+        var Output1 = "Du hast noch kein Guthaben eingezahlt. Du kannst es über die angegebenen Zahlungsmethoden aufladen.";
+    }
+
     console.log("1: " + EingezahltesGuthaben);
     console.log("2: " + GuthabenNachGebür);
     console.log("3: " + AktuellesGuthaben);
-
-    function Liquide(AktuellesGuthaben, Serverkosten) {
-        if (AktuellesGuthaben >= Serverkosten) {
-            return("")
-        }
-
-        if (EingezahltesGuthaben === 0) {
-            return("Du hast noch kein Guthaben eingezahlt. Du kannst es über die angegebenen Zahlungsmethoden aufladen.");
-        }
-
-        return("Dein aktuelles Guthaben reicht nicht aus, um im nächsten Monat mitspielen zu können. Du kannst es über die angegebenen Zahlungsmethoden wieder aufladen.")
-    }
 
     async function GuthabenAufladen() {
         "use server"
@@ -50,7 +42,6 @@ export default async function Guthaben( {rows, name} ) {
             <p>{Output1}</p>
             <p>{Output2}</p>
             <p>{Output3}</p>
-            <p>{Liquide(AktuellesGuthaben, Serverkosten)}</p>
             <form action={GuthabenAufladen}>
                 <button>Guthaben aufladen</button>
             </form>
