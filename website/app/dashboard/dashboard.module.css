@@ -106,6 +106,13 @@
   transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
 }
 
+.logoutButton,
+.actionForm button,
+.participationForm button {
+  box-sizing: border-box;
+  width: 200px;
+}
+
 .logoutButton:hover,
 .yearButton:hover,
 .section :global(form button:hover) {
@@ -158,6 +165,9 @@
 
 .sectionHeading > :global(h1) {
   margin: 0 0 20px;
+  color: #f4f0e6;
+  font-size: clamp(1.35rem, 1.8vw, 1.8rem);
+  font-weight: 700;
 }
 
 .actionForm {
