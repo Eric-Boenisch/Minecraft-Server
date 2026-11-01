@@ -7,7 +7,7 @@ export default function TeilnahmeForm({ action }) {
   const [message, formAction, isPending] = useActionState(action, "");
 
   return (
-    <form action={formAction}>
+    <form className={styles.participationForm} action={formAction}>
       {message && (
         <p className={styles.participationMessage} role="status">
           {message}

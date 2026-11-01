@@ -1,6 +1,7 @@
 "use server"
 import { redirect } from "next/navigation";
 import { getCellValue, getColumnIndex } from "./excelService";
+import styles from "../dashboard.module.css";
 
 export default async function Guthaben( {rows, name} ) {
 
@@ -42,7 +43,7 @@ export default async function Guthaben( {rows, name} ) {
             <p>{Output1}</p>
             <p>{Output2}</p>
             <p>{Output3}</p>
-            <form action={GuthabenAufladen}>
+            <form className={styles.actionForm} action={GuthabenAufladen}>
                 <button>Guthaben aufladen</button>
             </form>
         </div>

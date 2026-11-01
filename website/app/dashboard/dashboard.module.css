@@ -1,6 +1,8 @@
 .dashboard {
   --accent: #496b4d;
   --accent-bright: #78a77d;
+  position: relative;
+  isolation: isolate;
   width: 60%;
   min-height: 100svh;
   margin: 0 auto;
@@ -17,6 +19,37 @@
   background:
     radial-gradient(ellipse at 50% 0%, rgb(112 75 43 / 20%), transparent 34%),
     #171817;
+}
+
+.dashboard::before,
+.dashboard::after {
+  position: absolute;
+  z-index: -1;
+  top: 8%;
+  bottom: 8%;
+  width: clamp(180px, 18vw, 340px);
+  content: "";
+  pointer-events: none;
+}
+
+.dashboard::before {
+  right: 100%;
+  background: radial-gradient(
+    ellipse at 100% 50%,
+    color-mix(in srgb, var(--accent-bright) 36%, transparent),
+    color-mix(in srgb, var(--accent) 18%, transparent) 35%,
+    transparent 74%
+  );
+}
+
+.dashboard::after {
+  left: 100%;
+  background: radial-gradient(
+    ellipse at 0% 50%,
+    color-mix(in srgb, var(--accent-bright) 36%, transparent),
+    color-mix(in srgb, var(--accent) 18%, transparent) 35%,
+    transparent 74%
+  );
 }
 
 .navbar {
@@ -60,28 +93,30 @@
 .yearButton,
 .section :global(form button) {
   min-height: 42px;
-  border: 1px solid color-mix(in srgb, var(--accent-bright) 62%, #464944);
+  border: 1px solid #ff7770;
   border-radius: 6px;
-  background: color-mix(in srgb, var(--accent) 24%, #171817);
-  color: #f4f0e6;
+  background: linear-gradient(180deg, #d4423d, #a92127);
+  box-shadow: 0 3px 0 #68191d, 0 6px 16px rgb(0 0 0 / 24%);
+  color: #fff;
   cursor: pointer;
   font: inherit;
   font-weight: 650;
   padding: 8px 18px;
-  transition: background-color 160ms ease, border-color 160ms ease, transform 120ms ease;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 35%);
+  transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
 }
 
 .logoutButton:hover,
 .yearButton:hover,
 .section :global(form button:hover) {
-  border-color: var(--accent-bright);
-  background: color-mix(in srgb, var(--accent) 52%, #171817);
+  filter: brightness(1.12);
 }
 
 .logoutButton:active,
 .yearButton:active,
 .section :global(form button:active) {
-  transform: translateY(1px);
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #68191d, 0 4px 12px rgb(0 0 0 / 28%);
 }
 
 .logoutButton:focus-visible,
@@ -114,11 +149,22 @@
   margin-top: 18px;
 }
 
+.actionForm {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.participationForm {
+  display: grid;
+  justify-items: end;
+}
+
 .participationMessage {
   width: min(100%, 720px);
   margin: 0 0 14px;
   color: #d3d3cc;
   line-height: 1.55;
+  justify-self: start;
 }
 
 .yearSection {
@@ -132,13 +178,14 @@
 .yearButtons {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
 }
 
 .yearButton[aria-pressed="true"] {
-  border-color: var(--accent-bright);
-  background: color-mix(in srgb, var(--accent) 58%, #171817);
-  box-shadow: 0 0 15px color-mix(in srgb, var(--accent) 32%, transparent);
+  border-color: #ffb0a9;
+  background: linear-gradient(180deg, #ee554e, #b9272d);
+  box-shadow: 0 0 18px rgb(212 66 61 / 38%);
 }
 
 .yearContent {
@@ -184,11 +231,17 @@
 
 @media (max-width: 1024px) {
   .dashboard {
+    isolation: auto;
     width: 100%;
     background:
       radial-gradient(ellipse at 50% 0%, rgb(73 107 77 / 16%), transparent 34%),
       #171817;
     padding: 0 36px;
+  }
+
+  .dashboard::before,
+  .dashboard::after {
+    display: none;
   }
 
   .bedrockTheme {
