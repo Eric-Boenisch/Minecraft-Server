@@ -1,9 +1,10 @@
+import { json } from "node:stream/consumers";
 import { getCellValue, readRows } from "./excelService";
 import { getCurrentMonth, getCurrentYear } from "./ShowTable";
 
 export async function whitelist() {
     const rows = await readRows();
-    const month = (getCurrentYear() - 2026) * 12 + getCurrentMonth() -3 + 1; //gibt den Zeilenindex für den Monat aus der aktuell gewhitelisted wird.
+    const month = (getCurrentYear() - 2026) * 12 + getCurrentMonth() - 3; //gibt den Zeilenindex für den Monat aus der aktuell gewhitelisted wird.
     const whitelist = [];
 
     for (let i = 1; i < 21; i++) {
@@ -18,11 +19,12 @@ export async function whitelist() {
     return(Whitelist);
 }
 
-function API() {
-    fetch('https://minecraft-server-gamma.vercel.app/api/whitelist', { //hier dann richtige URL einfügen und bei .htaccess den * mit der Server URL ersetzen
+export async function API() {
+    const json = await whitelist();
+    await fetch('https://minecraft-server-gamma.vercel.app/api/whitelist', { //hier dann richtige URL einfügen und bei .htaccess den * mit der Server URL ersetzen
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: whitelist()
+  body: json
 });
 }
 

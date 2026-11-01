@@ -1,6 +1,6 @@
 import { getCurrentMonth, getCurrentYear } from "./ShowTable";
 import { getCellValue, getColumnIndex, updateCellValue } from "./excelService";
-import { whitelist } from "./whitelist";
+import { whitelist, API } from "./whitelist";
 import TeilnahmeForm from "./TeilnahmeForm.jsx";
 import styles from "../dashboard.module.css";
 
@@ -55,7 +55,7 @@ export default function Teilgenommen({rows, name}) {
         }
     
         await updateCellValue(row, getColumnIndex(rows, name), true);
-        await whitelist();
+        await API();
         return "Teilnahme erfolgreich.";
     }
 

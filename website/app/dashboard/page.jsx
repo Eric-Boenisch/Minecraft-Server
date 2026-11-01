@@ -80,5 +80,3 @@ export default function Dashboard() {
     </Suspense>
   );
 }
-
-console.log("test:" + whitelist());
