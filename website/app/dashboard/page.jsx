@@ -13,6 +13,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { getJwtSecret } from "../auth";
+import Navbar from "./components/navbar.jsx";
 
 
 //bei Zellen immer so: Zeile Spalte
@@ -47,8 +48,13 @@ async function DashboardContent() {
     redirect('/login');
   }
 
+  if (name.startsWith(".")) {
+    var BedrockUser = true;
+  }
   return (
     <>
+      <Navbar BedrockUser={BedrockUser} name={name} />
+      
       <p>{getCellValue(rows, 0, getColumnIndex(rows, name))}</p>
 
       <Guthaben rows={rows} name={name} />
