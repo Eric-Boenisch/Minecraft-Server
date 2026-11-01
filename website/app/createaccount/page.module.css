@@ -184,6 +184,8 @@
 }
 
 .field label {
+  width: 80%;
+  align-self: center;
   color: #d8d6ce;
   font-size: clamp(1rem, 1.05vw, 1.25rem);
   font-weight: 600;
