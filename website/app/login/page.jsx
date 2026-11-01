@@ -40,11 +40,8 @@ export default function LoginPage() {
     }
     }
 
-    async function test(FormData) {
-        "use server"
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(FormData.get('hash'), salt);
-        return console.log(hash)
+    async function CreateAccount() {
+      return(redirect("/createaccount"))
     }
     
     return(
@@ -54,12 +51,10 @@ export default function LoginPage() {
             <input name="Password"></input>
             <button type="submit">login</button>
         </form>
-
-        <p>absatz</p>
-            
-        <form action={test}>
-            <input name="hash"></input>
-            <button type="submit">hash generieren</button>
+  
+        <form action={CreateAccount}>
+            <p>Du hast noch keinen Account, dann erstelle dir jetzt einen...</p>
+            <button type="submit">Account erstellen</button>
         </form>
 
         </main>
