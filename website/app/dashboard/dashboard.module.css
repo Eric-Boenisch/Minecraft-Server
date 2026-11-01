@@ -149,22 +149,44 @@
   margin-top: 18px;
 }
 
+.sectionHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.sectionHeading > :global(h1) {
+  margin: 0 0 20px;
+}
+
 .actionForm {
   display: flex;
   justify-content: flex-end;
+  margin-top: 0;
 }
 
 .participationForm {
   display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 1fr) auto;
   justify-items: end;
+  margin-top: 0;
+}
+
+.participationForm > :global(button) {
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .participationMessage {
+  grid-column: 1 / -1;
+  grid-row: 2;
   width: min(100%, 720px);
   margin: 0 0 14px;
   color: #d3d3cc;
   line-height: 1.55;
-  justify-self: start;
+  justify-self: end;
 }
 
 .yearSection {
@@ -179,7 +201,11 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: clamp(30px, 3.5vw, 50px);
+}
+
+.yearButton {
+  min-width: 120px;
 }
 
 .yearButton[aria-pressed="true"] {
@@ -280,6 +306,22 @@
 
   .section {
     padding: 24px 0 28px;
+  }
+
+  .sectionHeading {
+    gap: 12px;
+  }
+
+  .sectionHeading > :global(h1) {
+    font-size: 1.25rem;
+  }
+
+  .yearButtons {
+    gap: 18px;
+  }
+
+  .yearButton {
+    min-width: 100px;
   }
 
   .yearContent :global(th) {

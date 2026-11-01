@@ -2,6 +2,7 @@ import { getCurrentMonth, getCurrentYear } from "./ShowTable";
 import { getCellValue, getColumnIndex, updateCellValue } from "./excelService";
 import { whitelist } from "./whitelist";
 import TeilnahmeForm from "./TeilnahmeForm.jsx";
+import styles from "../dashboard.module.css";
 
 export default function Teilgenommen({rows, name}) {
     
@@ -60,9 +61,11 @@ export default function Teilgenommen({rows, name}) {
 
     return(
         <div>
-            <h1>Monatliche Teilnahme</h1>
+            <div className={styles.sectionHeading}>
+                <h1>Monatliche Teilnahme</h1>
+                <TeilnahmeForm action={TeilnehmenÜberprüfen} />
+            </div>
             <p>Möchtest du im {AktuelesDatum()} teilnehmen?</p>
-            <TeilnahmeForm action={TeilnehmenÜberprüfen} />
         </div>
     )
 }

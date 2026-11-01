@@ -39,13 +39,15 @@ export default async function Guthaben( {rows, name} ) {
     
     return(
         <div>
-            <h1>Guthaben</h1>
+            <div className={styles.sectionHeading}>
+                <h1>Guthaben</h1>
+                <form className={styles.actionForm} action={GuthabenAufladen}>
+                    <button>Guthaben aufladen</button>
+                </form>
+            </div>
             <p>{Output1}</p>
             <p>{Output2}</p>
             <p>{Output3}</p>
-            <form className={styles.actionForm} action={GuthabenAufladen}>
-                <button>Guthaben aufladen</button>
-            </form>
         </div>
         
         
