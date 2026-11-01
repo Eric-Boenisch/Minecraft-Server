@@ -177,26 +177,16 @@
 }
 
 .participationForm {
-  display: grid;
-  flex: 1;
-  grid-template-columns: minmax(0, 1fr) auto;
-  justify-items: end;
+  display: flex;
+  justify-content: flex-end;
   margin-top: 0;
 }
 
-.participationForm > :global(button) {
-  grid-column: 2;
-  grid-row: 1;
-}
-
 .participationMessage {
-  grid-column: 1 / -1;
-  grid-row: 2;
   width: min(100%, 720px);
-  margin: 0 0 14px;
+  margin: 10px 0 0;
   color: #d3d3cc;
   line-height: 1.55;
-  justify-self: start;
   text-align: left;
 }
 

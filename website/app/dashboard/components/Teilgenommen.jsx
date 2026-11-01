@@ -60,12 +60,9 @@ export default function Teilgenommen({rows, name}) {
     }
 
     return(
-        <div>
-            <div className={styles.sectionHeading}>
-                <h1>Monatliche Teilnahme</h1>
-                <TeilnahmeForm action={TeilnehmenÜberprüfen} />
-            </div>
-            <p>Möchtest du im {AktuelesDatum()} teilnehmen?</p>
-        </div>
+        <TeilnahmeForm
+            action={TeilnehmenÜberprüfen}
+            question={`Möchtest du im ${AktuelesDatum()} teilnehmen?`}
+        />
     )
 }
