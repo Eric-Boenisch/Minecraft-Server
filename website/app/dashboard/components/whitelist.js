@@ -15,14 +15,14 @@ export async function whitelist() {
     }
     console.log(whitelist.length);
     var Whitelist = JSON.stringify(whitelist);
-    return(whitelist);
+    return(Whitelist);
 }
 
 function API() {
-    fetch('https://minecraft-server-gamma.vercel.app/', { //hier dann richtige URL einfügen und bei .htaccess den * mit der Server URL ersetzen
+    fetch('https://minecraft-server-gamma.vercel.app/api/whitelist', { //hier dann richtige URL einfügen und bei .htaccess den * mit der Server URL ersetzen
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(whitelist())
+  body: whitelist()
 });
 }
 
