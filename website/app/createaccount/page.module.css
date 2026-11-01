@@ -211,7 +211,14 @@
 
 .bedrockUsername {
   display: flex;
+  width: 80%;
+  align-self: center;
   gap: 7px;
+}
+
+.field > .textInput {
+  width: 80%;
+  align-self: center;
 }
 
 .usernamePrefix {
@@ -233,7 +240,9 @@
 }
 
 .createButton {
+  width: 80%;
   min-height: 50px;
+  align-self: center;
   border: 1px solid #ff7770;
   border-radius: 7px;
   background: linear-gradient(180deg, #d4423d, #a92127);

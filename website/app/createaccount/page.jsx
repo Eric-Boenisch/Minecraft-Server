@@ -29,7 +29,7 @@ export default function CreateAccount() {
         <div className={styles.content}>
           <div className={styles.accountType}>
             <div className={`${styles.logo} ${!IsChecked ? styles.activeLogo : ""}`}>
-              <Image src="/Java.webp" alt="Java Edition" width={310} height={94} priority />
+              <Image src="/Java.png" alt="Java Edition" width={323} height={93} priority />
             </div>
             <label className={styles.switch}>
               <input
@@ -44,7 +44,7 @@ export default function CreateAccount() {
               </span>
             </label>
             <div className={`${styles.logo} ${IsChecked ? styles.activeLogo : ""}`}>
-              <Image src="/Bedrock.webp" alt="Bedrock Edition" width={160} height={160} priority />
+              <Image src="/Bedrock.png" alt="Bedrock Edition" width={300} height={100} priority />
             </div>
           </div>
 
