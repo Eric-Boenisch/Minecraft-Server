@@ -1,6 +1,7 @@
 import { getCurrentMonth, getCurrentYear } from "./ShowTable";
 import { getCellValue, getColumnIndex, updateCellValue } from "./excelService";
 import { whitelist } from "./whitelist";
+import TeilnahmeForm from "./TeilnahmeForm.jsx";
 
 export default function Teilgenommen({rows, name}) {
     
@@ -27,13 +28,12 @@ export default function Teilgenommen({rows, name}) {
         
     }
 
-    async function TeilnehmenÜberprüfen() {
+    async function TeilnehmenÜberprüfen(_previousState, _formData) {
         "use server"
         const row = (getCurrentYear() - 2026) * 12 + getCurrentMonth() -3;
 
         if (getCellValue(rows, row, getColumnIndex(rows, name)) === true) {
-            const alert = "Du nimmst an diesem Monat schon teil."
-            return(alert)
+            return "Du nimmst an diesem Monat schon teil.";
         }
 
         const EingezahltesGuthaben = getCellValue(rows, 2, getColumnIndex(rows, name));
@@ -49,25 +49,20 @@ export default function Teilgenommen({rows, name}) {
         const Serverkosten = 0.5;
         const AktuellesGuthaben = GuthabenNachGebür - x * Serverkosten;
 
-            if (AktuellesGuthaben < Serverkosten) {
-                const alert = "Dein aktuelles Guthaben reicht nicht aus, um im nächsten Monat mitspielen zu können. Du kannst es über die angegebenen Zahlungsmethoden wieder aufladen.";
-                return(alert);
-            }
+        if (AktuellesGuthaben < Serverkosten) {
+            return "Dein aktuelles Guthaben reicht nicht aus, um im nächsten Monat mitspielen zu können. Du kannst es über die angegebenen Zahlungsmethoden wieder aufladen.";
+        }
     
-        updateCellValue(row, getColumnIndex(rows, name), true);
-        whitelist();
-        const alert = "Teilnahme erfolgreich";
-        return(alert)    
+        await updateCellValue(row, getColumnIndex(rows, name), true);
+        await whitelist();
+        return "Teilnahme erfolgreich.";
     }
-    
+
     return(
         <div>
             <h1>Monatliche Teilnahme</h1>
-            <form action={TeilnehmenÜberprüfen}>
-                <label htmlFor="teilnehmen">Möchtest du im {AktuelesDatum()} teilnehmen?</label>
-                <p>{TeilnehmenÜberprüfen()}</p>
-                <button type="submit">teilnehmen</button>
-            </form>
+            <p>Möchtest du im {AktuelesDatum()} teilnehmen?</p>
+            <TeilnahmeForm action={TeilnehmenÜberprüfen} />
         </div>
     )
 }

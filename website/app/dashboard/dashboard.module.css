@@ -114,6 +114,13 @@
   margin-top: 18px;
 }
 
+.participationMessage {
+  width: min(100%, 720px);
+  margin: 0 0 14px;
+  color: #d3d3cc;
+  line-height: 1.55;
+}
+
 .yearSection {
   border-bottom: 0;
 }
