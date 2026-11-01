@@ -10,7 +10,7 @@ export async function POST(request) {
 
     let data;
 
-    const name = "Edgar_";
+    const name = data.q7_username;
     console.log(name);
     const EingezahltesGuthaben = await getCellValue(rows, 2, getColumnIndex(rows, name)) + 5;
     console.log(EingezahltesGuthaben);

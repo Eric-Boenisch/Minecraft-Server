@@ -29,7 +29,7 @@ export default function Teilgenommen({rows, name}) {
 
     async function TeilnehmenÜberprüfen() {
         "use server"
-        const row = (getCurrentYear() - 2026) * 12 + getCurrentMonth() -3 + 1;
+        const row = (getCurrentYear() - 2026) * 12 + getCurrentMonth() -3;
 
         if (getCellValue(rows, row, getColumnIndex(rows, name)) === true) {
             const alert = "du nimmst an diesem Monat schon teil"
