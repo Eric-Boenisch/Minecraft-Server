@@ -41,6 +41,7 @@ export default function LoginPage() {
     }
 
     async function CreateAccount() {
+        "use server"
       return(redirect("/createaccount"))
     }
     
