@@ -7,13 +7,13 @@ import Teilgenommen  from "./components/Teilgenommen.jsx";
 import Guthaben from "./components/guthaben.jsx";
 import YearSelector from "./components/YearSelector.jsx";
 import { whitelist } from "./components/whitelist.js";
-import { LogoutAction } from "./components/logout.jsx";
 
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { getJwtSecret } from "../auth";
 import Navbar from "./components/navbar.jsx";
+import styles from "./dashboard.module.css";
 
 
 //bei Zellen immer so: Zeile Spalte
@@ -48,29 +48,28 @@ async function DashboardContent() {
     redirect('/login');
   }
 
-  if (name.startsWith(".")) {
-    var BedrockUser = true;
-  }
+  const BedrockUser = name.startsWith(".");
   return (
-    <>
+    <main className={`${styles.dashboard} ${BedrockUser ? styles.bedrockTheme : ""}`}>
       <Navbar BedrockUser={BedrockUser} name={name} />
-      
-      <p>{getCellValue(rows, 0, getColumnIndex(rows, name))}</p>
 
-      <Guthaben rows={rows} name={name} />
+      <section className={styles.section}>
+        <Guthaben rows={rows} name={name} />
+      </section>
 
-      <Teilgenommen rows={rows} name={name} />
+      <section className={styles.section}>
+        <Teilgenommen rows={rows} name={name} />
+      </section>
 
-      <YearSelector
-        year2026={<ShowTable2026 rows={rows} name={name} />}
-        year2027={<ShowTable2027 rows={rows} name={name} />}
-        year2028={<ShowTable2028 rows={rows} name={name} />}
-      />
-
-      <form action={LogoutAction}>
-            <button type="submit">Logout</button>
-        </form>
-    </>
+      <section className={`${styles.section} ${styles.yearSection}`}>
+        <h1>Übersicht nach Jahr</h1>
+        <YearSelector
+          year2026={<ShowTable2026 rows={rows} name={name} />}
+          year2027={<ShowTable2027 rows={rows} name={name} />}
+          year2028={<ShowTable2028 rows={rows} name={name} />}
+        />
+      </section>
+    </main>
   );
 }
 
