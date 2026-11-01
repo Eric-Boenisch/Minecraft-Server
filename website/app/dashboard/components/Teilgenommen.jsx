@@ -59,9 +59,16 @@ export default function Teilgenommen({rows, name}) {
         return "Teilnahme erfolgreich.";
     }
 
+    async function WhitelistAktualisieren(_previousState, _formData) {
+        "use server"
+        await API();
+        return "Whitelist erfolgreich aktualisiert.";
+    }
+
     return(
         <TeilnahmeForm
             action={TeilnehmenÜberprüfen}
+            apiAction={WhitelistAktualisieren}
             question={`Möchtest du im ${AktuelesDatum()} teilnehmen?`}
         />
     )

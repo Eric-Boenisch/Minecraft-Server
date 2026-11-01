@@ -1,4 +1,3 @@
-import { json } from "node:stream/consumers";
 import { getCellValue, readRows } from "./excelService";
 import { getCurrentMonth, getCurrentYear } from "./ShowTable";
 
@@ -20,12 +19,16 @@ export async function whitelist() {
 }
 
 export async function API() {
-    const json = await whitelist();
-    await fetch('https://minecraft-server-gamma.vercel.app/api/whitelist', { //hier dann richtige URL einfügen und bei .htaccess den * mit der Server URL ersetzen
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: json
-});
+    const body = await whitelist();
+    const response = await fetch('https://minecraft-server-gamma.vercel.app/api/whitelist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+    });
+
+    if (!response.ok) {
+        throw new Error(`Whitelist-API antwortete mit Status ${response.status}`);
+    }
 }
 
 
