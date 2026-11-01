@@ -1,22 +1,39 @@
 import ExcelJS from 'exceljs';
-import path from 'node:path';
+import { get, put } from '@vercel/blob';
 
-const filePath = path.join(
-  process.cwd(),
-  'app',
-  'dashboard',
-  'components',
-  'Kostentabelle.xlsx'
-);
+const blobPathname = 'Kostentabelle.xlsx';
+const excelContentType =
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 
 async function readWorkbook() {
+  const blob = await get(blobPathname, {
+    access: 'private',
+    useCache: false,
+  });
+
+  if (!blob) {
+    throw new Error(
+      `Vercel Blob "${blobPathname}" was not found. Upload the workbook to the connected Blob store first.`
+    );
+  }
+
+  const fileBuffer = Buffer.from(
+    await new Response(blob.stream).arrayBuffer()
+  );
   const workbook = new ExcelJS.Workbook();
-  await workbook.xlsx.readFile(filePath);
-  return workbook;
+  await workbook.xlsx.load(fileBuffer);
+
+  return { workbook, etag: blob.blob.etag };
 }
 
 export async function readRows() {
-  const worksheet = (await readWorkbook()).worksheets[0];
+  const { workbook } = await readWorkbook();
+  const worksheet = workbook.worksheets[0];
+
+  if (!worksheet) {
+    throw new Error(`Vercel Blob "${blobPathname}" contains no worksheet.`);
+  }
+
   return Array.from({ length: worksheet.rowCount }, (_, rowIndex) =>
     Array.from({ length: worksheet.columnCount }, (_, columnIndex) =>
       worksheet.getRow(rowIndex + 1).getCell(columnIndex + 1).value ?? null
@@ -37,7 +54,20 @@ export function getCellValue(rows, row, column) {
 }
 
 export async function updateCellValue(row, column, value) {
-  const workbook = await readWorkbook();
-  workbook.worksheets[0].getCell(row + 1, column + 1).value = value;
-  await workbook.xlsx.writeFile(filePath);
+  const { workbook, etag } = await readWorkbook();
+  const worksheet = workbook.worksheets[0];
+
+  if (!worksheet) {
+    throw new Error(`Vercel Blob "${blobPathname}" contains no worksheet.`);
+  }
+
+  worksheet.getCell(row + 1, column + 1).value = value;
+  const fileBuffer = await workbook.xlsx.writeBuffer();
+
+  await put(blobPathname, fileBuffer, {
+    access: 'private',
+    allowOverwrite: true,
+    contentType: excelContentType,
+    ifMatch: etag,
+  });
 }
