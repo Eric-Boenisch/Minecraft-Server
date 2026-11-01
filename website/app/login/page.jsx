@@ -78,6 +78,10 @@ export default function LoginPage() {
                 <p className={styles.registerPrompt}>
                     Noch kein Account? <Link href="/createaccount">Dann geht&apos;s hier zur Registrierung.</Link>
                 </p>
+                <p>Bitte beachte, dass Bedrock-User vor ihren Username einen Punkt (".") setzen müssen...
+                    <br></br>
+                    z.B. Edgar_ -&gt; .Edgar_
+                </p>
             </section>
         </main>
     )
