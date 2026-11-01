@@ -235,6 +235,8 @@
 }
 
 .message {
+  width: 80%;
+  align-self: center;
   margin: 0;
   color: #e7c89e;
   font-size: 0.9rem;
