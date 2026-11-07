@@ -187,9 +187,15 @@
 }
 
 .rechargeDialog {
+  position: fixed;
+  inset: auto;
+  top: 50%;
+  left: 50%;
   box-sizing: border-box;
+  margin: 0;
   width: min(560px, calc(100vw - 32px));
   max-height: calc(100dvh - 32px);
+  transform: translate(-50%, -50%);
   overflow-y: auto;
   border: 1px solid color-mix(in srgb, var(--accent-bright) 48%, #464944);
   border-radius: 10px;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "../dashboard.module.css";
 
 let paypalSdkPromise;
@@ -38,6 +39,7 @@ function loadPaypalSdk(clientId) {
 }
 
 export default function RechargeDialog({ username }) {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [showPaypalButtons, setShowPaypalButtons] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -95,9 +97,13 @@ export default function RechargeDialog({ username }) {
               throw new Error(result.error || "Die Zahlung konnte nicht bestätigt werden.");
             }
 
+            if (result.status === "COMPLETED") {
+              router.refresh();
+            }
+
             setPaymentMessage(
               result.status === "COMPLETED"
-                ? "Zahlung abgeschlossen. Dein Guthaben wird nach der PayPal-Bestätigung aktualisiert."
+                ? "Zahlung abgeschlossen. Dein Guthaben wurde aktualisiert."
                 : "PayPal verarbeitet die Zahlung noch. Das Guthaben wird nach Abschluss aktualisiert."
             );
             setShowPaypalButtons(false);
@@ -133,7 +139,7 @@ export default function RechargeDialog({ username }) {
         });
       }
     };
-  }, [clientId, isOpen, showPaypalButtons]);
+  }, [clientId, isOpen, router, showPaypalButtons]);
 
   function closeDialog() {
     setIsOpen(false);

@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { applyPaypalPayment } from "../../../dashboard/components/excelService.js";
 import {
   getAuthenticatedUsername,
   getPurchaseUnitForUsername,
@@ -55,11 +56,33 @@ export async function POST(request) {
       }
     );
 
-    const status = capture.purchase_units?.[0]?.payments?.captures?.[0]?.status;
+    const completedCapture =
+      capture.purchase_units?.[0]?.payments?.captures?.find(
+        (payment) => payment.status === "COMPLETED"
+      );
+    const status =
+      completedCapture?.status ??
+      capture.purchase_units?.[0]?.payments?.captures?.[0]?.status;
     if (status !== "COMPLETED" && status !== "PENDING") {
       return Response.json(
         { error: "PayPal hat die Zahlung nicht abgeschlossen." },
         { status: 400 }
+      );
+    }
+
+    if (status === "COMPLETED") {
+      if (
+        !completedCapture?.id ||
+        completedCapture.amount?.currency_code !== PAYPAL_CURRENCY ||
+        completedCapture.amount?.value !== PAYPAL_AMOUNT
+      ) {
+        throw new Error("PayPal returned an invalid completed capture.");
+      }
+
+      await applyPaypalPayment(
+        completedCapture.id,
+        username,
+        Number(PAYPAL_AMOUNT)
       );
     }
 
