@@ -26,6 +26,31 @@ JWT_SECRET=your-long-random-secret
 
 Generate a strong value with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` and restart the Next.js server after changing the file. For deployments, configure `JWT_SECRET` as a server-side environment variable. Do not commit the secret.
 
+## PayPal-Guthaben
+
+The dashboard opens the fixed 5.00 EUR checkout inside its recharge dialog. The signed-in Minecraft username is attached to the PayPal order on the server; the browser cannot choose another account or amount. The balance is credited only after PayPal's `PAYMENT.CAPTURE.COMPLETED` webhook is signature-verified. Processed capture IDs are stored in the hidden `PayPalPayments` worksheet in the existing workbook to prevent duplicate credits.
+
+Set these variables in `website/.env.local` for local testing, or in the deployment's server environment. Do not commit the file or expose the server-side values:
+
+```text
+# TODO: PayPal Dashboard > Apps & Credentials > Sandbox (or Live) > Client ID
+NEXT_PUBLIC_PAYPAL_CLIENT_ID=your-sandbox-client-id
+PAYPAL_CLIENT_ID=your-sandbox-client-id
+
+# TODO: PayPal Dashboard > Apps & Credentials > Sandbox (or Live) > Secret
+PAYPAL_CLIENT_SECRET=your-sandbox-secret
+
+# TODO: PayPal Dashboard > Webhooks > webhook ID for this app and environment
+PAYPAL_WEBHOOK_ID=your-sandbox-webhook-id
+
+# TODO: Sandbox for tests; switch to Live when using Live credentials
+PAYPAL_API_BASE_URL=https://api-m.sandbox.paypal.com
+```
+
+In the PayPal Developer Dashboard, create a webhook for the same Sandbox/Live app and subscribe to `PAYMENT.CAPTURE.COMPLETED`. Set its URL to `https://YOUR_PUBLIC_HOST/api/paypal` (for local testing, `https://YOUR_NGROK_HOST/api/paypal`) and copy that webhook's ID into `PAYPAL_WEBHOOK_ID`. The checkout page also needs the public `NEXT_PUBLIC_PAYPAL_CLIENT_ID`; the API uses `PAYPAL_CLIENT_ID` and `PAYPAL_CLIENT_SECRET` from the same environment. Restart the local server after changing `.env.local`.
+
+The order and capture APIs are `/api/paypal/order` and `/api/paypal/capture`. The webhook URL is `/api/paypal`. PayPal cannot reach `localhost`; use an HTTPS tunnel such as ngrok for local webhook testing.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

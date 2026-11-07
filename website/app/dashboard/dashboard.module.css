@@ -212,16 +212,55 @@
   font-size: clamp(1.25rem, 1.8vw, 1.6rem);
 }
 
-.rechargeFormPlaceholder {
+.rechargeForm {
   display: grid;
-  min-height: 280px;
-  place-items: center;
-  border: 1px dashed color-mix(in srgb, var(--accent-bright) 55%, #464944);
+  gap: 16px;
+}
+
+.rechargeForm label {
+  display: grid;
+  gap: 7px;
+  color: #d3d3cc;
+  font-weight: 600;
+}
+
+.rechargeForm input {
+  min-height: 42px;
+  border: 1px solid #464944;
   border-radius: 8px;
   background: rgb(9 10 9 / 48%);
+  color: #f3f1e9;
+  font: inherit;
+  padding: 9px 12px;
+}
+
+.rechargeForm input:read-only {
   color: #b9b9b2;
-  padding: 24px;
+}
+
+.rechargeForm > button {
+  justify-self: center;
+  margin-top: 4px;
+}
+
+.paypalButtons {
+  max-width: 420px;
+  margin: 20px auto 0;
+}
+
+.rechargeError,
+.rechargeStatus {
+  margin: 16px 0 0;
+  line-height: 1.5;
   text-align: center;
+}
+
+.rechargeError {
+  color: #ff9a94;
+}
+
+.rechargeStatus {
+  color: var(--accent-bright);
 }
 
 .rechargeDialogActions {

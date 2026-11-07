@@ -71,3 +71,72 @@ export async function updateCellValue(row, column, value) {
     ifMatch: etag,
   });
 }
+
+export async function applyPaypalPayment(captureId, username, amount) {
+  const { workbook, etag } = await readWorkbook();
+  const worksheet = workbook.worksheets[0];
+
+  if (!worksheet) {
+    throw new Error(`Vercel Blob "${blobPathname}" contains no worksheet.`);
+  }
+
+  let paymentLedger = workbook.getWorksheet('PayPalPayments');
+  const column = getColumnIndex(readRowsFromWorkbook(workbook), username);
+  if (column < 0) {
+    throw new Error(`No spreadsheet column found for username "${username}".`);
+  }
+
+  if (paymentLedger) {
+    for (let rowNumber = 2; rowNumber <= paymentLedger.rowCount; rowNumber++) {
+      if (paymentLedger.getCell(rowNumber, 1).value === captureId) {
+        return { duplicate: true };
+      }
+    }
+  } else {
+    paymentLedger = workbook.addWorksheet('PayPalPayments');
+    paymentLedger.addRow([
+      'Capture ID',
+      'Minecraft username',
+      'Amount (EUR)',
+      'Processed at (UTC)',
+    ]);
+  }
+
+  const balanceCell = worksheet.getRow(3).getCell(column + 1);
+  const currentBalance = Number(balanceCell.value ?? 0);
+  if (!Number.isFinite(currentBalance) || !Number.isFinite(amount) || amount <= 0) {
+    throw new Error(`Invalid balance or payment amount for username "${username}".`);
+  }
+
+  balanceCell.value = currentBalance + amount;
+  paymentLedger.addRow([
+    captureId,
+    username,
+    amount,
+    new Date().toISOString(),
+  ]);
+  paymentLedger.state = 'veryHidden';
+
+  const fileBuffer = await workbook.xlsx.writeBuffer();
+  await put(blobPathname, fileBuffer, {
+    access: 'private',
+    allowOverwrite: true,
+    contentType: excelContentType,
+    ifMatch: etag,
+  });
+
+  return { duplicate: false };
+}
+
+function readRowsFromWorkbook(workbook) {
+  const worksheet = workbook.worksheets[0];
+  if (!worksheet) {
+    throw new Error(`Vercel Blob "${blobPathname}" contains no worksheet.`);
+  }
+
+  return Array.from({ length: worksheet.rowCount }, (_, rowIndex) =>
+    Array.from({ length: worksheet.columnCount }, (_, columnIndex) =>
+      worksheet.getRow(rowIndex + 1).getCell(columnIndex + 1).value ?? null
+    )
+  );
+}

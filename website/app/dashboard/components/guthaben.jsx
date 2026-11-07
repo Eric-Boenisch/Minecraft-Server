@@ -36,7 +36,7 @@ export default async function Guthaben( {rows, name} ) {
         <div>
             <div className={styles.sectionHeading}>
                 <h1>Guthaben</h1>
-                <RechargeDialog />
+                <RechargeDialog username={name} />
             </div>
             <p>{Output1}</p>
             <p>{Output2}</p>
