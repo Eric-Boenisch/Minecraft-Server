@@ -1,6 +1,6 @@
 "use server"
-import { redirect } from "next/navigation";
 import { getCellValue, getColumnIndex } from "./excelService";
+import RechargeDialog from "./RechargeDialog.jsx";
 import styles from "../dashboard.module.css";
 
 export default async function Guthaben( {rows, name} ) {
@@ -32,18 +32,11 @@ export default async function Guthaben( {rows, name} ) {
     console.log("2: " + GuthabenNachGebür);
     console.log("3: " + AktuellesGuthaben);
 
-    async function GuthabenAufladen() {
-        "use server"
-        redirect("https://pci.jotform.com/form/262996802319064");
-    }
-    
     return(
         <div>
             <div className={styles.sectionHeading}>
                 <h1>Guthaben</h1>
-                <form className={styles.actionForm} action={GuthabenAufladen}>
-                    <button>Guthaben aufladen</button>
-                </form>
+                <RechargeDialog />
             </div>
             <p>{Output1}</p>
             <p>{Output2}</p>

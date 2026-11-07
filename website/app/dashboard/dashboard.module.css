@@ -91,7 +91,9 @@
 
 .logoutButton,
 .yearButton,
-.section :global(form button) {
+.section :global(form button),
+.rechargeButton,
+.cancelRechargeButton {
   min-height: 42px;
   border: 1px solid #ff7770;
   border-radius: 6px;
@@ -108,27 +110,35 @@
 
 .logoutButton,
 .actionForm button,
-.participationForm button {
+.participationForm button,
+.rechargeButton,
+.cancelRechargeButton {
   box-sizing: border-box;
   width: 200px;
 }
 
 .logoutButton:hover,
 .yearButton:hover,
-.section :global(form button:hover) {
+.section :global(form button:hover),
+.rechargeButton:hover,
+.cancelRechargeButton:hover {
   filter: brightness(1.12);
 }
 
 .logoutButton:active,
 .yearButton:active,
-.section :global(form button:active) {
+.section :global(form button:active),
+.rechargeButton:active,
+.cancelRechargeButton:active {
   transform: translateY(2px);
   box-shadow: 0 1px 0 #68191d, 0 4px 12px rgb(0 0 0 / 28%);
 }
 
 .logoutButton:focus-visible,
 .yearButton:focus-visible,
-.section :global(form button:focus-visible) {
+.section :global(form button:focus-visible),
+.rechargeButton:focus-visible,
+.cancelRechargeButton:focus-visible {
   outline: 3px solid var(--accent-bright);
   outline-offset: 3px;
 }
@@ -174,6 +184,50 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 0;
+}
+
+.rechargeDialog {
+  box-sizing: border-box;
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  border: 1px solid color-mix(in srgb, var(--accent-bright) 48%, #464944);
+  border-radius: 10px;
+  background:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--accent) 25%, transparent), transparent 55%),
+    #171817;
+  box-shadow: 0 18px 60px rgb(0 0 0 / 60%);
+  color: #f3f1e9;
+  padding: 28px;
+}
+
+.rechargeDialog::backdrop {
+  background: rgb(0 0 0 / 72%);
+  backdrop-filter: blur(3px);
+}
+
+.rechargeDialog > :global(h2) {
+  margin: 0 0 20px;
+  color: #f4f0e6;
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+}
+
+.rechargeFormPlaceholder {
+  display: grid;
+  min-height: 280px;
+  place-items: center;
+  border: 1px dashed color-mix(in srgb, var(--accent-bright) 55%, #464944);
+  border-radius: 8px;
+  background: rgb(9 10 9 / 48%);
+  color: #b9b9b2;
+  padding: 24px;
+  text-align: center;
+}
+
+.rechargeDialogActions {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
 }
 
 .participationActions {
